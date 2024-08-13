@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
+import 'package:pizza_app/screens/home/views/details.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
