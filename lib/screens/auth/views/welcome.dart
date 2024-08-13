@@ -78,9 +78,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         ),
                         child: TabBar(
                           controller: tabController,
-                          unselectedLabelColor:
-                              Theme.of(context).colorScheme.onSecondary,
-                          labelColor: Theme.of(context).colorScheme.secondary,
+                          unselectedLabelColor: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.5),
+                          labelColor: Theme.of(context).colorScheme.onSurface,
                           tabs: const [
                             Padding(
                               padding: EdgeInsets.all(12),
