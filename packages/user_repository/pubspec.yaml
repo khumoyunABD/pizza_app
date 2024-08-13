@@ -1,0 +1,26 @@
+name: user_repository
+description: "The Repo that handles users"
+
+publish_to: "none"
+
+version: 0.0.1
+
+environment:
+  sdk: ">=3.4.3 <4.0.0"
+
+dependencies:
+  cloud_firestore: ^5.2.1
+  cupertino_icons: ^1.0.6
+  firebase_auth: ^5.1.4
+  firebase_storage: ^12.1.3
+  flutter:
+    sdk: flutter
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  flutter_lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
