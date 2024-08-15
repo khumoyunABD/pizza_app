@@ -65,7 +65,7 @@ class DetailsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  "\$${pizza.price - (pizza.price * (pizza.discount) / 100)}",
+                                  "${pizza.price - (pizza.price * (pizza.discount) / 100).round()} sum",
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ class DetailsScreen extends StatelessWidget {
                                           .primary),
                                 ),
                                 Text(
-                                  "\$${pizza.price}.00",
+                                  "${pizza.price} sum",
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,

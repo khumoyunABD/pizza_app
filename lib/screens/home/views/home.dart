@@ -153,43 +153,77 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "\$${state.pizzas[i].price - (state.pizzas[i].price * (state.pizzas[i].discount) / 100)}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontWeight: FontWeight.w700),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "\$${state.pizzas[i].price}.00",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey.shade500,
-                                              fontWeight: FontWeight.w700,
-                                              decoration:
-                                                  TextDecoration.lineThrough),
-                                        ),
-                                      ],
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${state.pizzas[i].price - (state.pizzas[i].price * (state.pizzas[i].discount) / 100).round()} sum",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "${state.pizzas[i].price}sum",
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.grey.shade500,
+                                                fontWeight: FontWeight.w700,
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            //custom button
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: SizedBox(
+                                height: 30,
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    CupertinoIcons.add,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  label: Text(
+                                    'Add',
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    // Adjust the vertical padding if needed
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
                                     ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                            CupertinoIcons.add_circled_solid))
-                                  ],
-                                ))
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
