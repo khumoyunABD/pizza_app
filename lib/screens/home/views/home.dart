@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
             const Text(
               'PIZZA',
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
-            )
+            ),
           ],
         ),
         actions: [
@@ -147,9 +147,9 @@ class HomeScreen extends StatelessWidget {
                               child: Text(
                                 state.pizzas[i].description,
                                 style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.grey.shade500,
-                                ),
+                                    fontSize: 10,
+                                    color: Colors.grey.shade500,
+                                    overflow: TextOverflow.ellipsis),
                               ),
                             ),
                             Padding(
@@ -173,10 +173,10 @@ class HomeScreen extends StatelessWidget {
                                                 fontWeight: FontWeight.w700),
                                           ),
                                           const SizedBox(
-                                            width: 10,
+                                            width: 6,
                                           ),
                                           Text(
-                                            "${state.pizzas[i].price}sum",
+                                            "${state.pizzas[i].price} sum",
                                             style: TextStyle(
                                                 fontSize: 10,
                                                 color: Colors.grey.shade500,
@@ -193,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             //custom button
                             const SizedBox(
-                              height: 5,
+                              height: 7,
                             ),
                             Padding(
                               padding:
