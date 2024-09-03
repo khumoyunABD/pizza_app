@@ -16,7 +16,7 @@ class CartScreen extends StatelessWidget {
             SizedBox(width: 8),
             Text(
               'Your Cart',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
             ),
             SizedBox(
               width: 15,
@@ -29,9 +29,9 @@ class CartScreen extends StatelessWidget {
         child: Text(
           'Your cart is empty...',
           style: TextStyle(
-            color: Theme.of(context).colorScheme.surfaceTint,
-            fontWeight: FontWeight.w400,
             fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade700,
           ),
         ),
       ),
