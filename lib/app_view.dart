@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:pizza_app/constants/size_config.dart';
 import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:pizza_app/screens/auth/views/welcome.dart';
+import 'package:pizza_app/screens/home/blocs/cart_bloc/cart_bloc.dart';
 import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
 import 'package:pizza_app/screens/home/views/home.dart';
 import 'package:pizza_app/screens/home/views/splash.dart';
-import 'package:pizza_app/size_config.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
 class MyAppView extends StatefulWidget {
@@ -48,10 +49,11 @@ class _MyAppViewState extends State<MyAppView> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-            surface: Colors.grey.shade200,
-            onSurface: Colors.black,
-            primary: Colors.blue,
-            onPrimary: Colors.white),
+          surface: Colors.grey.shade200,
+          onSurface: Colors.black,
+          primary: Colors.blue,
+          onPrimary: Colors.white,
+        ),
       ),
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: ((context, state) {
@@ -72,6 +74,9 @@ class _MyAppViewState extends State<MyAppView> {
                 BlocProvider(
                   create: (context) =>
                       GetPizzaBloc(FirebasePizzaRepo())..add(GetPizza()),
+                ),
+                BlocProvider(
+                  create: (context) => CartBloc(),
                 ),
               ],
               child: const HomeScreen(),

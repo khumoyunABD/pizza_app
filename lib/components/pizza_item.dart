@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pizza_app/constants/size_config.dart';
+import 'package:pizza_app/screens/home/blocs/cart_bloc/cart_bloc.dart';
 import 'package:pizza_app/screens/home/views/details.dart';
-import 'package:pizza_app/size_config.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
 class PizzaItem extends StatelessWidget {
@@ -15,13 +17,8 @@ class PizzaItem extends StatelessWidget {
   final void Function(GlobalKey) onClick;
   final GlobalKey widgetKey = GlobalKey();
 
-  //animation
   @override
   Widget build(BuildContext context) {
-    // Responsive sizing
-    // final screenWidth = MediaQuery.of(context).size.width;
-    // final screenHeight = MediaQuery.of(context).size.height;
-
     return Material(
       elevation: 3,
       color: Colors.white,
@@ -216,27 +213,81 @@ class PizzaItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: getRelativeWidth(0.02),
               ),
-              child: SizedBox(
-                height: getRelativeHeight(0.03),
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () => onClick(widgetKey),
-                  icon: Icon(
-                    CupertinoIcons.add,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                  label: Text(
-                    'Add',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    // Adjust the vertical padding if needed
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+              child: BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  if (state.itemCounter == 0) {
+                    return SizedBox(
+                      height: getRelativeHeight(0.03),
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          onClick(widgetKey);
+                          context.read<CartBloc>().add(AddItemEvent());
+                        },
+                        icon: Icon(
+                          CupertinoIcons.add,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        label: Text(
+                          'Add',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          // Adjust the vertical padding if needed
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (state.itemCounter > 0) {
+                    return SizedBox(
+                      height: getRelativeHeight(0.03),
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              context.read<CartBloc>().add(RemoveItemEvent());
+                            },
+                            icon: const Icon(CupertinoIcons.minus),
+                          ),
+                          Text(state.itemCounter.toString()),
+                          IconButton(
+                            onPressed: () {
+                              context.read<CartBloc>().add(AddItemEvent());
+                            },
+                            icon: const Icon(CupertinoIcons.plus),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return SizedBox(
+                    height: getRelativeHeight(0.03),
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => onClick(widgetKey),
+                      icon: Icon(
+                        CupertinoIcons.add,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      label: Text(
+                        'Add',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        // Adjust the vertical padding if needed
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
           ],

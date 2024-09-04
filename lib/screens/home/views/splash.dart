@@ -9,22 +9,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // @override
-  // void initState() {
-  //   navigateToHomeScreen();
-  //   super.initState();
-  // }
-
-  // void navigateToHomeScreen() async {
-  //   Future.delayed(const Duration(seconds: 4), () {
-  //     Navigator.of(context).pushReplacement(
-  //       MaterialPageRoute(
-  //         builder: (context) => const HomeScreen(),
-  //       ),
-  //     );
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

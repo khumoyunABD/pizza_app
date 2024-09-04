@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/components/pizza_item.dart';
+import 'package:pizza_app/constants/size_config.dart';
 import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
-import 'package:pizza_app/size_config.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(CupertinoIcons.shopping_cart),
               badgeOptions: const BadgeOptions(
                 active: true,
+                //_cartQuantityItems == 0 ? false : true,
                 backgroundColor: Colors.red,
               ),
               // onPressed: () {
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, int i) {
                       return PizzaItem(
                         pizza: state.pizzas[i],
-                        onClick: itemClick,
+                        onClick: addItem,
                       );
                     });
               } else if (state is GetPizzaLoading) {
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void itemClick(GlobalKey widgetKey) async {
+  void addItem(GlobalKey widgetKey) async {
     await runAddToCartAnimation(widgetKey);
     await cartKey.currentState!
         .runCartAnimation((++_cartQuantityItems).toString());
