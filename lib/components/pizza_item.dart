@@ -5,13 +5,17 @@ import 'package:pizza_app/size_config.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
 class PizzaItem extends StatelessWidget {
-  const PizzaItem({
+  PizzaItem({
     super.key,
     required this.pizza,
+    required this.onClick,
   });
 
   final Pizza pizza;
+  final void Function(GlobalKey) onClick;
+  final GlobalKey widgetKey = GlobalKey();
 
+  //animation
   @override
   Widget build(BuildContext context) {
     // Responsive sizing
@@ -43,43 +47,47 @@ class PizzaItem extends StatelessWidget {
               ),
               child: AspectRatio(
                 aspectRatio: 1,
-                child: Image.network(
-                  pizza.picture,
-                  fit: BoxFit.cover,
-                  height: getRelativeHeight(0.21),
-                  width: double.infinity,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    } else {
+                child: Container(
+                  key: widgetKey,
+                  color: Colors.transparent,
+                  child: Image.network(
+                    pizza.picture,
+                    fit: BoxFit.cover,
+                    height: getRelativeHeight(0.21),
+                    width: double.infinity,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return Container(
+                          padding: EdgeInsets.all(getRelativeWidth(0.03)),
+                          height: getRelativeHeight(0.21),
+                          width: double.infinity,
+                          color: Colors.grey.shade200,
+                          child: CircularProgressIndicator.adaptive(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                : null,
+                          ),
+                        );
+                      }
+                    },
+                    errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        padding: EdgeInsets.all(getRelativeWidth(0.03)),
                         height: getRelativeHeight(0.21),
                         width: double.infinity,
                         color: Colors.grey.shade200,
-                        child: CircularProgressIndicator.adaptive(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  (loadingProgress.expectedTotalBytes ?? 1)
-                              : null,
+                        child: const Center(
+                          child: Icon(
+                            Icons.broken_image,
+                            color: Colors.redAccent,
+                          ),
                         ),
                       );
-                    }
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      height: getRelativeHeight(0.21),
-                      width: double.infinity,
-                      color: Colors.grey.shade200,
-                      child: const Center(
-                        child: Icon(
-                          Icons.broken_image,
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                    );
-                  },
+                    },
+                  ),
                 ),
               ),
             ),
@@ -212,7 +220,7 @@ class PizzaItem extends StatelessWidget {
                 height: getRelativeHeight(0.03),
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () => onClick(widgetKey),
                   icon: Icon(
                     CupertinoIcons.add,
                     color: Theme.of(context).colorScheme.onSurface,

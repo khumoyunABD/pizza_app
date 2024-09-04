@@ -7,6 +7,7 @@ environment:
   sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
+  add_to_cart_animation: ^2.0.4
   bloc: ^8.1.4
   cupertino_icons: ^1.0.6
   equatable: ^2.0.5
