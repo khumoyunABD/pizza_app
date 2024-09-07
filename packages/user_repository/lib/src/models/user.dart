@@ -1,16 +1,19 @@
 import 'package:user_repository/src/entities/entities.dart';
+import 'package:user_repository/src/models/models.dart';
 
 class MyUser {
   String userId;
   String email;
   String name;
   bool hasActiveCart;
+  List<CartItem>? cartItems;
 
   MyUser({
     required this.userId,
     required this.email,
     required this.name,
     required this.hasActiveCart,
+    this.cartItems,
   });
 
   static final empty = MyUser(
@@ -18,6 +21,7 @@ class MyUser {
     email: '',
     name: '',
     hasActiveCart: false,
+    // cartItems: List.empty(),
   );
 
   MyUserEntity toEntity() {
@@ -26,6 +30,7 @@ class MyUser {
       email: email,
       name: name,
       hasActiveCart: hasActiveCart,
+      cart: cartItems,
     );
   }
 
@@ -35,11 +40,12 @@ class MyUser {
       email: entity.email,
       name: entity.name,
       hasActiveCart: entity.hasActiveCart,
+      cartItems: entity.cart,
     );
   }
 
   @override
   String toString() {
-    return 'MyUser: $userId, $email, $name, $hasActiveCart';
+    return 'MyUser: $userId, $email, $name, $hasActiveCart, $cartItems';
   }
 }

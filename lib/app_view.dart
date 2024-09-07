@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:pizza_app/config/app_theme.dart';
 import 'package:pizza_app/constants/size_config.dart';
 import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:pizza_app/screens/auth/views/welcome.dart';
 import 'package:pizza_app/screens/home/blocs/cart_bloc/cart_bloc.dart';
 import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
-import 'package:pizza_app/screens/home/views/home.dart';
 import 'package:pizza_app/screens/home/views/splash.dart';
+import 'package:pizza_app/screens/tabs/main_tabs.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
 class MyAppView extends StatefulWidget {
@@ -47,14 +48,17 @@ class _MyAppViewState extends State<MyAppView> {
     return MaterialApp(
       title: 'Pizza Delivery',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.light(
-          surface: Colors.grey.shade200,
-          onSurface: Colors.black,
-          primary: Colors.blue,
-          onPrimary: Colors.white,
-        ),
-      ),
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      // ThemeData(
+      // const ColorScheme.light(
+      //   surface: Colors.white,
+      //   onSurface: Colors.black,
+      //   primary: Colors.blue,
+      //   onPrimary: Colors.white,
+      // ),
+      // ),
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: ((context, state) {
           //setting responsive size
@@ -79,7 +83,7 @@ class _MyAppViewState extends State<MyAppView> {
                   create: (context) => CartBloc(),
                 ),
               ],
-              child: const HomeScreen(),
+              child: const MainTabs(),
             );
           } else {
             return const WelcomeScreen();

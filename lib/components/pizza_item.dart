@@ -21,7 +21,7 @@ class PizzaItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 3,
-      color: Colors.white,
+      color: Colors.grey.shade100,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -242,8 +242,9 @@ class PizzaItem extends StatelessWidget {
                       ),
                     );
                   } else if (state.itemCounter > 0) {
-                    return SizedBox(
-                      height: getRelativeHeight(0.03),
+                    return Container(
+                      color: Colors.white,
+                      height: getRelativeHeight(0.032),
                       width: double.infinity,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -252,14 +253,20 @@ class PizzaItem extends StatelessWidget {
                             onPressed: () {
                               context.read<CartBloc>().add(RemoveItemEvent());
                             },
-                            icon: const Icon(CupertinoIcons.minus),
+                            icon: const Icon(
+                              CupertinoIcons.minus,
+                              size: 16,
+                            ),
                           ),
                           Text(state.itemCounter.toString()),
                           IconButton(
                             onPressed: () {
                               context.read<CartBloc>().add(AddItemEvent());
                             },
-                            icon: const Icon(CupertinoIcons.plus),
+                            icon: const Icon(
+                              CupertinoIcons.plus,
+                              size: 16,
+                            ),
                           ),
                         ],
                       ),
