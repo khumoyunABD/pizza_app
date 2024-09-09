@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:navigation_view/item_navigation_view.dart';
 import 'package:navigation_view/navigation_view.dart';
 
@@ -41,17 +42,6 @@ class AppBBN extends StatelessWidget {
               color: theme.dialogBackgroundColor,
               size: 30,
             )),
-        // ItemNavigationView(
-        //     childAfter: Icon(
-        //       IconlyBold.setting,
-        //       color: theme.primaryColor,
-        //       size: 35,
-        //     ),
-        //     childBefore: Icon(
-        //       IconlyBroken.setting,
-        //       color: theme.dialogBackgroundColor,
-        //       size: 30,
-        //     )),
         ItemNavigationView(
             childAfter: Icon(
               IconlyBold.document,
@@ -74,15 +64,16 @@ class AppBBN extends StatelessWidget {
               color: theme.dialogBackgroundColor,
               size: 30,
             )),
-
         ItemNavigationView(
             childAfter: Icon(
-              IconlyBold.home,
+              Ionicons.fast_food,
+              //FontAwesomeIcons.utensils,
               color: theme.primaryColor,
               size: 35,
             ),
             childBefore: Icon(
-              IconlyBroken.home,
+              Ionicons.fast_food_outline,
+              //FontAwesomeIcons.utensils,
               color: theme.dialogBackgroundColor,
               size: 30,
             )),

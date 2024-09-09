@@ -89,7 +89,7 @@ class _MainTabsState extends State<MainTabs> {
             Image.asset('assets/8.png', scale: 14),
             const SizedBox(width: 8),
             const Text(
-              'PIZZA',
+              'PIZZA_RAY',
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
             ),
           ],

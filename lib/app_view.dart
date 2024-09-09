@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/blocs/authentication_bloc/authentication_bloc.dart';
@@ -26,15 +27,22 @@ class _MyAppViewState extends State<MyAppView> {
   @override
   void initState() {
     super.initState();
-    _startSplashTimer();
+    _startSplashTimerOnIsolate();
   }
 
-  void _startSplashTimer() {
-    Timer(const Duration(seconds: 4, milliseconds: 300), () {
+  // Function that runs on a separate isolate
+  static Future<void> _startSplashTimer(Null _) async {
+    await Future.delayed(const Duration(seconds: 4, milliseconds: 300));
+  }
+
+  // Start splash timer on a separate isolate using compute
+  void _startSplashTimerOnIsolate() async {
+    await compute(_startSplashTimer, null); // Use compute to run the delay
+    if (mounted) {
       setState(() {
         _showSplash = false;
       });
-    });
+    }
   }
 
   @override
@@ -51,14 +59,6 @@ class _MyAppViewState extends State<MyAppView> {
       themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      // ThemeData(
-      // const ColorScheme.light(
-      //   surface: Colors.white,
-      //   onSurface: Colors.black,
-      //   primary: Colors.blue,
-      //   onPrimary: Colors.white,
-      // ),
-      // ),
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: ((context, state) {
           //setting responsive size

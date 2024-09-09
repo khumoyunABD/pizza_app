@@ -21,6 +21,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   font_awesome_flutter: ^10.7.0
   iconly: ^1.0.1
+  ionicons: ^0.2.2
   lottie: ^3.1.2
   navigation_view: ^1.0.6
   pizza_repository:

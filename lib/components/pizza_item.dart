@@ -19,9 +19,12 @@ class PizzaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return Material(
-      elevation: 3,
-      color: Colors.grey.shade100,
+      elevation: 5, shadowColor: theme.shadowColor,
+      //color: Colors.grey.shade100,
+      color: theme.cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -46,7 +49,7 @@ class PizzaItem extends StatelessWidget {
                 aspectRatio: 1,
                 child: Container(
                   key: widgetKey,
-                  color: Colors.transparent,
+                  // color: theme.secondaryHeaderColor,
                   child: Image.network(
                     pizza.picture,
                     fit: BoxFit.cover,
@@ -61,7 +64,7 @@ class PizzaItem extends StatelessWidget {
                           padding: EdgeInsets.all(getRelativeWidth(0.03)),
                           height: getRelativeHeight(0.21),
                           width: double.infinity,
-                          color: Colors.grey.shade200,
+                          //color: theme.secondaryHeaderColor,
                           child: CircularProgressIndicator.adaptive(
                             value: loadingProgress.expectedTotalBytes != null
                                 ? loadingProgress.cumulativeBytesLoaded /
@@ -72,10 +75,10 @@ class PizzaItem extends StatelessWidget {
                       }
                     },
                     errorBuilder: (context, error, stackTrace) {
-                      return Container(
+                      return SizedBox(
                         height: getRelativeHeight(0.21),
                         width: double.infinity,
-                        color: Colors.grey.shade200,
+                        //color: theme.secondaryHeaderColor,
                         child: const Center(
                           child: Icon(
                             Icons.broken_image,
@@ -243,9 +246,13 @@ class PizzaItem extends StatelessWidget {
                     );
                   } else if (state.itemCounter > 0) {
                     return Container(
-                      color: Colors.white,
+                      color: theme.cardColor,
                       height: getRelativeHeight(0.032),
-                      width: double.infinity,
+                      width: getRelativeWidth(0.4),
+                      // decoration: BoxDecoration(
+                      //   border: Border.all(width: 2),
+                      //   borderRadius: BorderRadius.circular(20),
+                      // ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -253,9 +260,10 @@ class PizzaItem extends StatelessWidget {
                             onPressed: () {
                               context.read<CartBloc>().add(RemoveItemEvent());
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               CupertinoIcons.minus,
-                              size: 16,
+                              size: getRelativeHeight(0.02),
+                              // color: theme.primaryColor,
                             ),
                           ),
                           Text(state.itemCounter.toString()),
@@ -263,9 +271,9 @@ class PizzaItem extends StatelessWidget {
                             onPressed: () {
                               context.read<CartBloc>().add(AddItemEvent());
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               CupertinoIcons.plus,
-                              size: 16,
+                              size: getRelativeHeight(0.02),
                             ),
                           ),
                         ],
