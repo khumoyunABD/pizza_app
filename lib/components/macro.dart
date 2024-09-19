@@ -14,10 +14,12 @@ class MyMacroWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return Expanded(
         child: Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -36,7 +38,10 @@ class MyMacroWidget extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               title == "Calories" ? '$value $title' : '${value}g $title',
-              style: const TextStyle(fontSize: 10),
+              style: TextStyle(
+                fontSize: 10,
+                color: theme.colorScheme.onSurface,
+              ),
             )
           ],
         ),

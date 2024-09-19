@@ -8,7 +8,6 @@ import 'package:pizza_app/config/app_theme.dart';
 import 'package:pizza_app/constants/size_config.dart';
 import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:pizza_app/screens/auth/views/welcome.dart';
-import 'package:pizza_app/screens/home/blocs/cart_bloc/cart_bloc.dart';
 import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
 import 'package:pizza_app/screens/home/views/splash.dart';
 import 'package:pizza_app/screens/tabs/main_tabs.dart';
@@ -79,9 +78,11 @@ class _MyAppViewState extends State<MyAppView> {
                   create: (context) =>
                       GetPizzaBloc(FirebasePizzaRepo())..add(GetPizza()),
                 ),
-                BlocProvider(
-                  create: (context) => CartBloc(),
-                ),
+                // BlocProvider(
+                //   create: (context) => CartBloc(
+                //     context.read<FirebaseUserRepo>(),
+                //   ),
+                // ),
               ],
               child: const MainTabs(),
             );

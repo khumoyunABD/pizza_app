@@ -11,7 +11,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return Scaffold(
+      backgroundColor: theme.colorScheme.onSurface,
       body: Center(
         child: SizedBox(
           child: Lottie.asset(

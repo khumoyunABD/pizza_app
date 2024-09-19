@@ -12,5 +12,5 @@ abstract class UserRepository {
   Future<void> logOut();
 
   //cart-related
-  Future<void> updateCartItemsInFirestore(List<CartItem> cartItems);
+  // Future<void> updateCartItemsInFirestore(List<CartItem> cartItems);
 }

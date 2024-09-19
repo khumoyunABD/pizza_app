@@ -66,25 +66,25 @@ class FirebaseUserRepo implements UserRepository {
       rethrow;
     }
   }
-
-  @override
-  Future<void> updateCartItemsInFirestore(List<CartItem> cartItems) async {
-    try {
-      // Convert the cartItems list to a list of maps
-      List<Map<String, dynamic>> cartItemsMap =
-          cartItems.map((item) => item.toEntity().toDocument()).toList();
-
-      // Get the reference to the user's document in Firestore
-      DocumentReference userDoc = FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid);
-
-      // Update or add the cartItems field
-      await userDoc.set({'cartItems': cartItemsMap}, SetOptions(merge: true));
-
-      log("Cart items added or updated successfully in Firestore!");
-    } catch (e) {
-      log("Failed to update or add cart items: $e");
-    }
-  }
 }
+//   @override
+//   Future<void> updateCartItemsInFirestore(List<CartItem> cartItems) async {
+//     try {
+//       // Convert the cartItems list to a list of maps
+//       List<Map<String, dynamic>> cartItemsMap =
+//           cartItems.map((item) => item.toEntity().toDocument()).toList();
+
+//       // Get the reference to the user's document in Firestore
+//       DocumentReference userDoc = FirebaseFirestore.instance
+//           .collection('users')
+//           .doc(FirebaseAuth.instance.currentUser!.uid);
+
+//       // Update or add the cartItems field
+//       await userDoc.set({'cartItems': cartItemsMap}, SetOptions(merge: true));
+
+//       log("Cart items added or updated successfully in Firestore!");
+//     } catch (e) {
+//       log("Failed to update or add cart items: $e");
+//     }
+//   }
+

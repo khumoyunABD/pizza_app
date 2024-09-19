@@ -29,6 +29,8 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return TextFormField(
       validator: validator,
       controller: controller,
@@ -38,6 +40,7 @@ class MyTextField extends StatelessWidget {
       onTap: onTap,
       textInputAction: TextInputAction.next,
       onChanged: onChanged,
+      style: TextStyle(color: theme.colorScheme.onSurface),
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
@@ -50,7 +53,7 @@ class MyTextField extends StatelessWidget {
           borderSide:
               BorderSide(color: Theme.of(context).colorScheme.secondary),
         ),
-        fillColor: Colors.grey.shade200,
+        fillColor: theme.colorScheme.secondary,
         filled: true,
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey[500]),

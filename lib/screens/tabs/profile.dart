@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -98,6 +100,16 @@ class ProfileScreen extends StatelessWidget {
                   leading: Icon(Icons.info),
                   title: Text('About'),
                   subtitle: Text('App version 1.0.0'),
+                ),
+                const Divider(),
+                // Additional Information
+                ListTile(
+                  onTap: () {
+                    context.read<SignInBloc>().add(SignOutRequired());
+                  },
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Log out'),
+                  //subtitle: Text('App version 1.0.0'),
                 ),
                 // const SizedBox(
                 //   height: 30,

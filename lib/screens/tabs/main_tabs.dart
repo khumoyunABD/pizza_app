@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/components/app_fader_effect.dart';
 import 'package:pizza_app/components/bnb.dart';
-import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:pizza_app/screens/home/views/cart.dart';
 import 'package:pizza_app/screens/home/views/home.dart';
 import 'package:pizza_app/screens/tabs/order.dart';
@@ -81,6 +78,7 @@ class _MainTabsState extends State<MainTabs> {
     return Scaffold(
       /// AppBar
       appBar: AppBar(
+        backgroundColor: theme.colorScheme.surface,
         title: Row(
           children: [
             const SizedBox(
@@ -90,17 +88,21 @@ class _MainTabsState extends State<MainTabs> {
             const SizedBox(width: 8),
             const Text(
               'PIZZA_RAY',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
+              style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 30,
+              ),
             ),
           ],
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.read<SignInBloc>().add(SignOutRequired());
-              },
-              icon: const Icon(CupertinoIcons.arrow_right_to_line)),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       context.read<SignInBloc>().add(SignOutRequired());
+        //     },
+        //     icon: const Icon(CupertinoIcons.arrow_right_to_line),
+        //   ),
+        // ],
       ),
       //_appBar(context),
       extendBody: true,

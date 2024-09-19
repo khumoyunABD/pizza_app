@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/components/pizza_item.dart';
+import 'package:pizza_app/custom/cart_repository.dart';
 import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //cart animation
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
   late Function(GlobalKey) runAddToCartAnimation;
-  var _cartQuantityItems = 0;
+  //final _cartQuantityItems = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
     //   ],
     // ),
     final ThemeData theme = Theme.of(context);
+    final userId = FirebaseAuth.instance.currentUser!.uid;
 
     return Material(
-      color: theme.colorScheme.onTertiary,
+      color: theme.colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.only(
           top: 16,
@@ -100,7 +105,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, int i) {
                     return PizzaItem(
                       pizza: state.pizzas[i],
-                      onClick: addItem,
+                      itemIndex: i,
+                      onAddToCart: (foodId, foodName, price) async {
+                        // Fetch pizza details
+                        var pizzaId = state.pizzas[i].pizzaId;
+                        var pizzaName = state.pizzas[i].name;
+                        var pizzaPrice = state.pizzas[i].price;
+
+                        // Await the addToCart function
+                        try {
+                          await addToCart(userId, pizzaId, pizzaName,
+                              pizzaPrice.toDouble());
+                          log('$pizzaName was added to cart!');
+                        } catch (e) {
+                          log('Failed to add pizza to cart!');
+                        }
+                      },
                     );
                   });
             } else if (state is GetPizzaLoading) {
@@ -119,9 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // );
   }
 
-  void addItem(GlobalKey widgetKey) async {
-    await runAddToCartAnimation(widgetKey);
-    await cartKey.currentState!
-        .runCartAnimation((++_cartQuantityItems).toString());
-  }
+  // void addItem(GlobalKey widgetKey) async {
+  //   await runAddToCartAnimation(widgetKey);
+  //   await cartKey.currentState!
+  //       .runCartAnimation((++_cartQuantityItems).toString());
+  // }
 }

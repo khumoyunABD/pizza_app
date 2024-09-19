@@ -1,21 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/constants/size_config.dart';
-import 'package:pizza_app/screens/home/blocs/cart_bloc/cart_bloc.dart';
 import 'package:pizza_app/screens/home/views/details.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
-class PizzaItem extends StatelessWidget {
-  PizzaItem({
+class PizzaItem extends StatefulWidget {
+  const PizzaItem({
     super.key,
     required this.pizza,
-    required this.onClick,
+    required this.onAddToCart,
+    required this.itemIndex,
   });
 
   final Pizza pizza;
-  final void Function(GlobalKey) onClick;
-  final GlobalKey widgetKey = GlobalKey();
+  final void Function(String foodId, String foodName, double price) onAddToCart;
+
+  //final void Function(GlobalKey) onClick;
+  final int itemIndex;
+  //final GlobalKey widgetKey = GlobalKey();
+
+  @override
+  State<PizzaItem> createState() => _PizzaItemState();
+}
+
+class _PizzaItemState extends State<PizzaItem> {
+  //new cart function
+  int quantity = 0;
+
+  // void _addToCart() {
+  //   setState(() {
+  //     quantity += 1; // Increment the quantity
+  //   });
+  //   //widget.onClick(widget.widgetKey); // Trigger the onClick to add to cart
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +41,7 @@ class PizzaItem extends StatelessWidget {
     return Material(
       elevation: 5, shadowColor: theme.shadowColor,
       //color: Colors.grey.shade100,
-      color: theme.cardColor,
+      color: theme.colorScheme.secondary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -34,7 +51,7 @@ class PizzaItem extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => DetailsScreen(pizza),
+              builder: (BuildContext context) => DetailsScreen(widget.pizza),
             ),
           );
         },
@@ -47,11 +64,11 @@ class PizzaItem extends StatelessWidget {
               ),
               child: AspectRatio(
                 aspectRatio: 1,
-                child: Container(
-                  key: widgetKey,
+                child: SizedBox(
+                  //key: widget.widgetKey,
                   // color: theme.secondaryHeaderColor,
                   child: Image.network(
-                    pizza.picture,
+                    widget.pizza.picture,
                     fit: BoxFit.cover,
                     height: getRelativeHeight(0.21),
                     width: double.infinity,
@@ -98,7 +115,7 @@ class PizzaItem extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        color: pizza.isVeg ? Colors.green : Colors.red,
+                        color: widget.pizza.isVeg ? Colors.green : Colors.red,
                         borderRadius: BorderRadius.circular(30)),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -106,7 +123,7 @@ class PizzaItem extends StatelessWidget {
                         horizontal: getRelativeWidth(0.02),
                       ),
                       child: Text(
-                        pizza.isVeg ? "VEG" : "NON-VEG",
+                        widget.pizza.isVeg ? "VEG" : "NON-VEG",
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -127,15 +144,15 @@ class PizzaItem extends StatelessWidget {
                         horizontal: getRelativeWidth(0.02),
                       ),
                       child: Text(
-                        pizza.spicy == 1
+                        widget.pizza.spicy == 1
                             ? "🌶️ BLAND"
-                            : pizza.spicy == 2
+                            : widget.pizza.spicy == 2
                                 ? "🌶️ BALANCE"
                                 : "🌶️ SPICY",
                         style: TextStyle(
-                            color: pizza.spicy == 1
+                            color: widget.pizza.spicy == 1
                                 ? Colors.green
-                                : pizza.spicy == 2
+                                : widget.pizza.spicy == 2
                                     ? Colors.orange
                                     : Colors.redAccent,
                             fontWeight: FontWeight.w800,
@@ -150,7 +167,7 @@ class PizzaItem extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: getRelativeWidth(0.03)),
               child: Text(
-                pizza.name,
+                widget.pizza.name,
                 style: TextStyle(
                     fontSize: getRelativeWidth(0.05),
                     fontWeight: FontWeight.bold),
@@ -161,7 +178,7 @@ class PizzaItem extends StatelessWidget {
                 horizontal: getRelativeWidth(0.03), // Responsive padding
               ),
               child: Text(
-                pizza.description,
+                widget.pizza.description,
                 style: TextStyle(
                   fontSize: getRelativeWidth(0.03),
                   color: Colors.grey.shade500,
@@ -181,7 +198,7 @@ class PizzaItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "${pizza.price - (pizza.price * (pizza.discount) / 100).round()} sum",
+                            "${widget.pizza.price - (widget.pizza.price * (widget.pizza.discount) / 100).round()} sum",
                             style: TextStyle(
                               fontSize: getRelativeWidth(0.035),
                               color: Theme.of(context).colorScheme.primary,
@@ -192,7 +209,7 @@ class PizzaItem extends StatelessWidget {
                             width: getRelativeWidth(0.015),
                           ),
                           Text(
-                            "${pizza.price} sum",
+                            "${widget.pizza.price} sum",
                             style: TextStyle(
                               fontSize: getRelativeWidth(0.027),
                               color: Colors.grey.shade500,
@@ -216,95 +233,50 @@ class PizzaItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: getRelativeWidth(0.02),
               ),
-              child: BlocBuilder<CartBloc, CartState>(
-                builder: (context, state) {
-                  if (state.itemCounter == 0) {
-                    return SizedBox(
-                      height: getRelativeHeight(0.03),
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          onClick(widgetKey);
-                          context.read<CartBloc>().add(AddItemEvent());
-                        },
-                        icon: Icon(
-                          CupertinoIcons.add,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                        label: Text(
-                          'Add',
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          // Adjust the vertical padding if needed
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                      ),
+              child: SizedBox(
+                height: getRelativeHeight(0.03),
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Pass the pizza details to the parent widget's addToCart function
+                    widget.onAddToCart(
+                      widget.pizza.pizzaId,
+                      widget.pizza.name,
+                      widget.pizza.price.toDouble(),
                     );
-                  } else if (state.itemCounter > 0) {
-                    return Container(
-                      color: theme.cardColor,
-                      height: getRelativeHeight(0.032),
-                      width: getRelativeWidth(0.4),
-                      // decoration: BoxDecoration(
-                      //   border: Border.all(width: 2),
-                      //   borderRadius: BorderRadius.circular(20),
-                      // ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              context.read<CartBloc>().add(RemoveItemEvent());
-                            },
-                            icon: Icon(
-                              CupertinoIcons.minus,
-                              size: getRelativeHeight(0.02),
-                              // color: theme.primaryColor,
-                            ),
-                          ),
-                          Text(state.itemCounter.toString()),
-                          IconButton(
-                            onPressed: () {
-                              context.read<CartBloc>().add(AddItemEvent());
-                            },
-                            icon: Icon(
-                              CupertinoIcons.plus,
-                              size: getRelativeHeight(0.02),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  return SizedBox(
-                    height: getRelativeHeight(0.03),
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () => onClick(widgetKey),
-                      icon: Icon(
-                        CupertinoIcons.add,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                      label: Text(
-                        'Add',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        // Adjust the vertical padding if needed
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
+                    //widget.onClick(widget.widgetKey);
+                  },
+                  icon: Icon(
+                    CupertinoIcons.add,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  label: Text(
+                    'Add',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    // Adjust the vertical padding if needed
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
             ),
+            if (quantity > 0)
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: getRelativeWidth(0.01)),
+                child: Text(
+                  "Quantity: $quantity",
+                  style: TextStyle(
+                    fontSize: getRelativeWidth(0.015),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

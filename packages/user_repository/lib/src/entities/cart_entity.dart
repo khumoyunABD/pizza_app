@@ -1,27 +1,31 @@
-class CartEntity {
-  String pizzaName;
-  int quantity;
-  double pricePerUnit;
+// class CartEntity {
+//   String name;
+//   int quantity;
+//   double pricePerUnit;
+//   String imageUrl; // Assuming each pizza has an image
 
-  CartEntity({
-    required this.pizzaName,
-    required this.quantity,
-    required this.pricePerUnit,
-  });
+//   CartEntity({
+//     required this.name,
+//     required this.quantity,
+//     required this.pricePerUnit,
+//     required this.imageUrl,
+//   });
 
-  Map<String, Object?> toDocument() {
-    return {
-      'pizzaName': pizzaName,
-      'quantity': quantity,
-      'pricePerUnit': pricePerUnit,
-    };
-  }
+//   Map<String, Object?> toDocument() {
+//     return {
+//       'name': name,
+//       'quantity': quantity,
+//       'pricePerUnit': pricePerUnit,
+//       'imageUrl': imageUrl,
+//     };
+//   }
 
-  static CartEntity fromDocument(Map<String, dynamic> doc) {
-    return CartEntity(
-      pizzaName: doc['pizzaName'],
-      quantity: doc['quantity'],
-      pricePerUnit: doc['pricePerUnit'],
-    );
-  }
-}
+//   static CartEntity fromDocument(Map<String, dynamic> doc) {
+//     return CartEntity(
+//       name: doc['name'],
+//       quantity: doc['quantity'],
+//       pricePerUnit: doc['pricePerUnit'],
+//       imageUrl: doc['imageUrl'],
+//     );
+//   }
+// }

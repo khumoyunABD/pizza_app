@@ -1,18 +1,16 @@
-import 'package:user_repository/user_repository.dart';
-
 class MyUserEntity {
   String userId;
   String email;
   String name;
   bool hasActiveCart;
-  List<CartItem>? cart;
+  //List<CartItem>? cart;
 
   MyUserEntity({
     required this.userId,
     required this.email,
     required this.name,
     required this.hasActiveCart,
-    this.cart,
+    //this.cart,
   });
 
   Map<String, Object?> toDocument() {
@@ -21,7 +19,7 @@ class MyUserEntity {
       'email': email,
       'name': name,
       'hasActiveCart': hasActiveCart,
-      'cart': cart?.map((item) => item.toEntity().toDocument()),
+      //'cart': cart?.map((item) => item.toEntity().toDocument()),
     };
   }
 
@@ -31,8 +29,8 @@ class MyUserEntity {
       email: doc['email'],
       name: doc['name'],
       hasActiveCart: doc['hasActiveCart'],
-      cart: doc['cart']
-          ?.map((item) => CartItem.fromEntity(CartEntity.fromDocument(item))),
+      //cart: doc['cart']
+      //    ?.map((item) => CartItem.fromEntity(CartEntity.fromDocument(item))),
     );
   }
 }

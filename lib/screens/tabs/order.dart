@@ -14,9 +14,9 @@ class OrderScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Order Screen",
+            "You have not ordered anything yet!",
             style: TextStyle(
-              fontSize: getRelativeWidth(0.06),
+              fontSize: getRelativeWidth(0.05),
               fontWeight: FontWeight.bold,
               color: theme.primaryColor,
             ),

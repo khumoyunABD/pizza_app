@@ -1,40 +1,45 @@
-import 'package:user_repository/src/entities/entities.dart';
+// import 'package:user_repository/src/entities/entities.dart';
 
-class CartItem {
-  String pizzaName;
-  int quantity;
-  double pricePerUnit;
+// class CartItem {
+//   String name;
+//   int quantity;
+//   double pricePerUnit;
+//   String imageUrl; // Assuming each pizza has an image
 
-  CartItem({
-    required this.pizzaName,
-    required this.quantity,
-    required this.pricePerUnit,
-  });
+//   CartItem({
+//     required this.name,
+//     required this.quantity,
+//     required this.pricePerUnit,
+//     required this.imageUrl,
+//   });
 
-  static final empty = CartItem(
-    pizzaName: '',
-    quantity: 0,
-    pricePerUnit: 0,
-  );
+//   static final empty = CartItem(
+//     name: '',
+//     quantity: 0,
+//     pricePerUnit: 0,
+//     imageUrl: '',
+//   );
 
-  CartEntity toEntity() {
-    return CartEntity(
-      pizzaName: pizzaName,
-      quantity: quantity,
-      pricePerUnit: pricePerUnit,
-    );
-  }
+//   CartEntity toEntity() {
+//     return CartEntity(
+//       name: name,
+//       quantity: quantity,
+//       pricePerUnit: pricePerUnit,
+//       imageUrl: imageUrl,
+//     );
+//   }
 
-  static CartItem fromEntity(CartEntity entity) {
-    return CartItem(
-      pizzaName: entity.pizzaName,
-      quantity: entity.quantity,
-      pricePerUnit: entity.pricePerUnit,
-    );
-  }
+//   static CartItem fromEntity(CartEntity entity) {
+//     return CartItem(
+//       name: entity.name,
+//       quantity: entity.quantity,
+//       pricePerUnit: entity.pricePerUnit,
+//       imageUrl: entity.imageUrl,
+//     );
+//   }
 
-  @override
-  String toString() {
-    return 'Cart: $pizzaName, $quantity, $pricePerUnit';
-  }
-}
+//   @override
+//   String toString() {
+//     return 'Cart: $name, $quantity, $pricePerUnit, $imageUrl';
+//   }
+// }
