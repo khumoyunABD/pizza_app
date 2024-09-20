@@ -106,16 +106,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     return PizzaItem(
                       pizza: state.pizzas[i],
                       itemIndex: i,
-                      onAddToCart: (foodId, foodName, price) async {
+                      onAddToCart:
+                          (foodId, foodName, price, foodPicture) async {
                         // Fetch pizza details
                         var pizzaId = state.pizzas[i].pizzaId;
                         var pizzaName = state.pizzas[i].name;
                         var pizzaPrice = state.pizzas[i].price;
+                        var pizzaPicture = state.pizzas[i].picture;
 
                         // Await the addToCart function
                         try {
-                          await addToCart(userId, pizzaId, pizzaName,
-                              pizzaPrice.toDouble());
+                          await addToCart(
+                            userId,
+                            pizzaId,
+                            pizzaName,
+                            pizzaPrice.toDouble(),
+                            pizzaPicture,
+                          );
                           log('$pizzaName was added to cart!');
                         } catch (e) {
                           log('Failed to add pizza to cart!');

@@ -15,6 +15,7 @@ class AppTheme {
     textTheme: const TextTheme(),
     dialogBackground: const Color.fromARGB(255, 174, 174, 174),
     secondary: const Color.fromARGB(255, 238, 238, 238),
+    secondaryContainer: const Color.fromARGB(255, 252, 245, 245),
     subThemesData: const FlexSubThemesData(
       blendOnLevel: 10,
       blendOnColors: false,
@@ -39,6 +40,7 @@ class AppTheme {
     ),
     dialogBackground: Colors.grey.shade800,
     secondary: const Color.fromARGB(255, 15, 15, 15),
+    secondaryContainer: const Color.fromARGB(255, 5, 5, 5),
     scheme: FlexScheme.deepPurple,
     surfaceTint: Colors.transparent,
     tabBarStyle: FlexTabBarStyle.forBackground,

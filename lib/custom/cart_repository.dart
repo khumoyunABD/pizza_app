@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future<void> addToCart(
-    String userId, String foodId, String foodName, double price) async {
+Future<void> addToCart(String userId, String foodId, String foodName,
+    double price, String foodPicture) async {
   final cartItemRef = FirebaseFirestore.instance
       .collection('users')
       .doc(userId)
@@ -25,6 +25,7 @@ Future<void> addToCart(
       'foodName': foodName,
       'price': price,
       'quantity': 1,
+      'picture': foodPicture,
     });
     log('Cart added');
   }
@@ -42,6 +43,7 @@ Future<List<Map<String, dynamic>>> getCartItems(String userId) async {
       'foodName': doc['foodName'],
       'price': doc['price'],
       'quantity': doc['quantity'],
+      'foodPicture': doc['picture']
     };
   }).toList();
 

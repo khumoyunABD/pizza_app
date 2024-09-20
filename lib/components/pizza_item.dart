@@ -13,7 +13,8 @@ class PizzaItem extends StatefulWidget {
   });
 
   final Pizza pizza;
-  final void Function(String foodId, String foodName, double price) onAddToCart;
+  final void Function(
+      String foodId, String foodName, double price, String picture) onAddToCart;
 
   //final void Function(GlobalKey) onClick;
   final int itemIndex;
@@ -39,7 +40,8 @@ class _PizzaItemState extends State<PizzaItem> {
     final ThemeData theme = Theme.of(context);
 
     return Material(
-      elevation: 5, shadowColor: theme.shadowColor,
+      //elevation: 5,
+      shadowColor: theme.shadowColor,
       //color: Colors.grey.shade100,
       color: theme.colorScheme.secondary,
       shape: RoundedRectangleBorder(
@@ -243,6 +245,7 @@ class _PizzaItemState extends State<PizzaItem> {
                       widget.pizza.pizzaId,
                       widget.pizza.name,
                       widget.pizza.price.toDouble(),
+                      widget.pizza.picture,
                     );
                     //widget.onClick(widget.widgetKey);
                   },
