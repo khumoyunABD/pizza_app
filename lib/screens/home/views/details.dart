@@ -26,10 +26,13 @@ class DetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: theme.cardColor,
                   borderRadius: BorderRadius.circular(30),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.grey, offset: Offset(3, 3), blurRadius: 5)
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: theme.shadowColor,
+                  //     offset: const Offset(3, 3),
+                  //     blurRadius: 5,
+                  //   ),
+                  // ],
                   image: DecorationImage(image: NetworkImage(pizza.picture))),
             ),
             const SizedBox(
@@ -39,10 +42,13 @@ class DetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: theme.cardColor,
                 borderRadius: BorderRadius.circular(30),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.grey, offset: Offset(3, 3), blurRadius: 5)
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: theme.shadowColor,
+                //     offset: const Offset(3, 3),
+                //     blurRadius: 5,
+                //   )
+                // ],
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),

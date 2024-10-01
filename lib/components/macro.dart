@@ -23,7 +23,7 @@ class MyMacroWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-                color: Colors.grey.shade400,
+                color: theme.shadowColor,
                 offset: const Offset(2, 2),
                 blurRadius: 5)
           ]),
@@ -33,7 +33,7 @@ class MyMacroWidget extends StatelessWidget {
           children: [
             FaIcon(
               icon,
-              color: Colors.redAccent,
+              color: theme.colorScheme.primary,
             ),
             const SizedBox(height: 4),
             Text(

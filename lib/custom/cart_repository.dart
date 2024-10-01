@@ -50,13 +50,13 @@ Future<List<Map<String, dynamic>>> getCartItems(String userId) async {
   return cartItems;
 }
 
-double calculateTotalPrice(List<Map<String, dynamic>> cartItems) {
-  double total = 0.0;
-  for (var item in cartItems) {
-    total += item['price'] * item['quantity'];
-  }
-  return total;
-}
+// double calculateTotalPrice(List<Map<String, dynamic>> cartItems) {
+//   double total = 0.0;
+//   for (var item in cartItems) {
+//     total += item['price'] * item['quantity'];
+//   }
+//   return total;
+// }
 
 Future<void> removeFromCart(String userId, String foodId) async {
   await FirebaseFirestore.instance

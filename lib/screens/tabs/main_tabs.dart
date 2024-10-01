@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pizza_app/components/app_fader_effect.dart';
 import 'package:pizza_app/components/bnb.dart';
 import 'package:pizza_app/screens/home/views/cart.dart';
 import 'package:pizza_app/screens/home/views/home.dart';
@@ -119,12 +118,12 @@ class _MainTabsState extends State<MainTabs> {
               _pages[_selectedIndex],
 
               /// Fader Effect
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: AppFaderEffect(atBottom: _atBottom),
-              ),
+              // Positioned(
+              //   left: 0,
+              //   right: 0,
+              //   bottom: 0,
+              //   child: AppFaderEffect(atBottom: _atBottom),
+              // ),
 
               /// Bottom Navigation Bar
               // Positioned(

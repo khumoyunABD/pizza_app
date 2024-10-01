@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pizza_app/components/pizza_item_add_shimmer.dart';
 import 'package:pizza_app/constants/size_config.dart';
+import 'package:pizza_app/custom/bloc/cart_bloc.dart';
+import 'package:pizza_app/custom/bloc/cart_state.dart';
 import 'package:pizza_app/screens/home/views/details.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
@@ -8,16 +12,17 @@ class PizzaItem extends StatefulWidget {
   const PizzaItem({
     super.key,
     required this.pizza,
-    required this.onAddToCart,
-    required this.itemIndex,
+    // required this.onAddToCart,
+    //required this.itemIndex,
   });
 
   final Pizza pizza;
-  final void Function(
-      String foodId, String foodName, double price, String picture) onAddToCart;
+
+  // final void Function(
+  //     String foodId, String foodName, double price, String picture) onAddToCart;
 
   //final void Function(GlobalKey) onClick;
-  final int itemIndex;
+  //final int itemIndex;
   //final GlobalKey widgetKey = GlobalKey();
 
   @override
@@ -25,16 +30,6 @@ class PizzaItem extends StatefulWidget {
 }
 
 class _PizzaItemState extends State<PizzaItem> {
-  //new cart function
-  int quantity = 0;
-
-  // void _addToCart() {
-  //   setState(() {
-  //     quantity += 1; // Increment the quantity
-  //   });
-  //   //widget.onClick(widget.widgetKey); // Trigger the onClick to add to cart
-  // }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -42,7 +37,6 @@ class _PizzaItemState extends State<PizzaItem> {
     return Material(
       //elevation: 5,
       shadowColor: theme.shadowColor,
-      //color: Colors.grey.shade100,
       color: theme.colorScheme.secondary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -231,55 +225,160 @@ class _PizzaItemState extends State<PizzaItem> {
               height: getRelativeHeight(0.008),
             ),
 
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: getRelativeWidth(0.02),
-              ),
-              child: SizedBox(
-                height: getRelativeHeight(0.03),
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // Pass the pizza details to the parent widget's addToCart function
-                    widget.onAddToCart(
-                      widget.pizza.pizzaId,
-                      widget.pizza.name,
-                      widget.pizza.price.toDouble(),
-                      widget.pizza.picture,
+            Expanded(
+              child: BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  if (state is CartError) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getRelativeWidth(0.02),
+                      ),
+                      child: SizedBox(
+                        height: getRelativeHeight(0.03),
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            //animation necessary function
+                            //widget.onClick(widget.widgetKey);
+                          },
+                          icon: Icon(
+                            CupertinoIcons.add,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          label: Text(
+                            'Error ${state.message}',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            // Adjust the vertical padding if needed
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                        ),
+                      ),
                     );
-                    //widget.onClick(widget.widgetKey);
-                  },
-                  icon: Icon(
-                    CupertinoIcons.add,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                  label: Text(
-                    'Add',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    // Adjust the vertical padding if needed
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                ),
+                  } else if (state is CartLoaded) {
+                    // Check if the pizza is present in the cart by matching pizzaId
+                    final cartItem = state.cartItems.firstWhere(
+                      (item) =>
+                          item['foodId'] ==
+                          widget.pizza.pizzaId, // Match pizzaId
+                      orElse: () => {}, // Return empty if not found
+                    );
+
+                    if (cartItem.isNotEmpty) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: getRelativeWidth(0.02),
+                        ),
+                        child: Container(
+                          height: getRelativeHeight(0.03),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.secondary,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(14)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.remove),
+                              ),
+                              Text(cartItem['quantity'].toString()),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.add),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            right: getRelativeWidth(0.02),
+                            left: getRelativeWidth(0.02),
+                            bottom: getRelativeHeight(0.007)
+                            //vertical: getRelativeHeight(0.006),
+                            ),
+                        child: SizedBox(
+                          height: getRelativeHeight(0.02),
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              //animation necessary function
+                              //widget.onClick(widget.widgetKey);
+                            },
+                            icon: Icon(
+                              CupertinoIcons.add,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            label: Text(
+                              'Add',
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              // Adjust the vertical padding if needed
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  } else if (state is CartEmpty || state is CartInitial) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          right: getRelativeWidth(0.02),
+                          left: getRelativeWidth(0.02),
+                          bottom: getRelativeHeight(0.007)
+                          //vertical: getRelativeHeight(0.006),
+                          ),
+                      child: SizedBox(
+                        height: getRelativeHeight(0.028),
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Icon(
+                            CupertinoIcons.add,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          label: Text(
+                            'Add',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            // Adjust the vertical padding if needed
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (state is CartLoading) {
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: getRelativeWidth(0.02),
+                          left: getRelativeWidth(0.02),
+                          bottom: getRelativeHeight(0.007)
+                          //vertical: getRelativeHeight(0.006),
+                          ),
+                      child: pizzaItemAddShimmer,
+                    );
+                  }
+                  return const SizedBox();
+                },
               ),
             ),
-            if (quantity > 0)
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: getRelativeWidth(0.01)),
-                child: Text(
-                  "Quantity: $quantity",
-                  style: TextStyle(
-                    fontSize: getRelativeWidth(0.015),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  ),
-                ),
-              ),
           ],
         ),
       ),

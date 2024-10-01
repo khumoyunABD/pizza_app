@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:pizza_app/config/app_theme.dart';
 import 'package:pizza_app/constants/size_config.dart';
+import 'package:pizza_app/custom/bloc/cart_bloc.dart';
+import 'package:pizza_app/custom/bloc/cart_event.dart';
 import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:pizza_app/screens/auth/views/welcome.dart';
 import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
@@ -46,6 +49,8 @@ class _MyAppViewState extends State<MyAppView> {
 
   @override
   Widget build(BuildContext context) {
+    final User user = FirebaseAuth.instance.currentUser!;
+
     if (_showSplash) {
       return const Directionality(
         textDirection: TextDirection.ltr, // or TextDirection.rtl if needed
@@ -78,11 +83,9 @@ class _MyAppViewState extends State<MyAppView> {
                   create: (context) =>
                       GetPizzaBloc(FirebasePizzaRepo())..add(GetPizza()),
                 ),
-                // BlocProvider(
-                //   create: (context) => CartBloc(
-                //     context.read<FirebaseUserRepo>(),
-                //   ),
-                // ),
+                BlocProvider(
+                  create: (context) => CartBloc()..add(LoadCartEvent(user.uid)),
+                )
               ],
               child: const MainTabs(),
             );
