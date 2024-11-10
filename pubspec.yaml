@@ -28,6 +28,7 @@ dependencies:
   navigation_view: ^1.0.6
   pizza_repository:
     path: packages/pizza_repository
+  provider: ^6.1.2
   shimmer: ^3.0.0
   user_repository:
     path: packages/user_repository

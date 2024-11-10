@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pizza_app/components/pizza_item_add_shimmer.dart';
 import 'package:pizza_app/constants/size_config.dart';
-import 'package:pizza_app/custom/bloc/cart_bloc.dart';
-import 'package:pizza_app/custom/bloc/cart_state.dart';
+import 'package:pizza_app/custom/quantity_button.dart';
 import 'package:pizza_app/screens/home/views/details.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
@@ -54,57 +50,62 @@ class _PizzaItemState extends State<PizzaItem> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(10),
-              ),
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: SizedBox(
-                  //key: widget.widgetKey,
-                  // color: theme.secondaryHeaderColor,
-                  child: Image.network(
-                    widget.pizza.picture,
-                    fit: BoxFit.cover,
-                    height: getRelativeHeight(0.21),
-                    width: double.infinity,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      } else {
-                        return Container(
-                          padding: EdgeInsets.all(getRelativeWidth(0.03)),
+            //image section
+            Expanded(
+              flex: 10,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(10),
+                ),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: SizedBox(
+                    //key: widget.widgetKey,
+                    // color: theme.secondaryHeaderColor,
+                    child: Image.network(
+                      widget.pizza.picture,
+                      fit: BoxFit.cover,
+                      height: getRelativeHeight(0.21),
+                      width: double.infinity,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Container(
+                            padding: EdgeInsets.all(getRelativeWidth(0.03)),
+                            height: getRelativeHeight(0.21),
+                            width: double.infinity,
+                            //color: theme.secondaryHeaderColor,
+                            child: CircularProgressIndicator.adaptive(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      (loadingProgress.expectedTotalBytes ?? 1)
+                                  : null,
+                            ),
+                          );
+                        }
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return SizedBox(
                           height: getRelativeHeight(0.21),
                           width: double.infinity,
                           //color: theme.secondaryHeaderColor,
-                          child: CircularProgressIndicator.adaptive(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    (loadingProgress.expectedTotalBytes ?? 1)
-                                : null,
+                          child: const Center(
+                            child: Icon(
+                              Icons.broken_image,
+                              color: Colors.redAccent,
+                            ),
                           ),
                         );
-                      }
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return SizedBox(
-                        height: getRelativeHeight(0.21),
-                        width: double.infinity,
-                        //color: theme.secondaryHeaderColor,
-                        child: const Center(
-                          child: Icon(
-                            Icons.broken_image,
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                      );
-                    },
+                      },
+                    ),
                   ),
                 ),
               ),
             ),
 
+            //info section
             Padding(
               padding: EdgeInsets.symmetric(horizontal: getRelativeWidth(0.03)),
               child: Row(
@@ -160,6 +161,8 @@ class _PizzaItemState extends State<PizzaItem> {
               ),
             ),
             SizedBox(height: getRelativeHeight(0.01)),
+
+            //
             Padding(
               padding: EdgeInsets.symmetric(horizontal: getRelativeWidth(0.03)),
               child: Text(
@@ -182,6 +185,8 @@ class _PizzaItemState extends State<PizzaItem> {
                 ),
               ),
             ),
+
+            //price
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: getRelativeWidth(0.03), // Responsive padding
@@ -220,164 +225,14 @@ class _PizzaItemState extends State<PizzaItem> {
                 ],
               ),
             ),
-            //custom button
-            SizedBox(
-              height: getRelativeHeight(0.008),
-            ),
-
-            Expanded(
-              child: BlocBuilder<CartBloc, CartState>(
-                builder: (context, state) {
-                  if (state is CartError) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getRelativeWidth(0.02),
-                      ),
-                      child: SizedBox(
-                        height: getRelativeHeight(0.03),
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            //animation necessary function
-                            //widget.onClick(widget.widgetKey);
-                          },
-                          icon: Icon(
-                            CupertinoIcons.add,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                          label: Text(
-                            'Error ${state.message}',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            // Adjust the vertical padding if needed
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else if (state is CartLoaded) {
-                    // Check if the pizza is present in the cart by matching pizzaId
-                    final cartItem = state.cartItems.firstWhere(
-                      (item) =>
-                          item['foodId'] ==
-                          widget.pizza.pizzaId, // Match pizzaId
-                      orElse: () => {}, // Return empty if not found
-                    );
-
-                    if (cartItem.isNotEmpty) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: getRelativeWidth(0.02),
-                        ),
-                        child: Container(
-                          height: getRelativeHeight(0.03),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.secondary,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(14)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.remove),
-                              ),
-                              Text(cartItem['quantity'].toString()),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.add),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            right: getRelativeWidth(0.02),
-                            left: getRelativeWidth(0.02),
-                            bottom: getRelativeHeight(0.007)
-                            //vertical: getRelativeHeight(0.006),
-                            ),
-                        child: SizedBox(
-                          height: getRelativeHeight(0.02),
-                          width: double.infinity,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              //animation necessary function
-                              //widget.onClick(widget.widgetKey);
-                            },
-                            icon: Icon(
-                              CupertinoIcons.add,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            label: Text(
-                              'Add',
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              // Adjust the vertical padding if needed
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                  } else if (state is CartEmpty || state is CartInitial) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          right: getRelativeWidth(0.02),
-                          left: getRelativeWidth(0.02),
-                          bottom: getRelativeHeight(0.007)
-                          //vertical: getRelativeHeight(0.006),
-                          ),
-                      child: SizedBox(
-                        height: getRelativeHeight(0.028),
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: Icon(
-                            CupertinoIcons.add,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                          label: Text(
-                            'Add',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            // Adjust the vertical padding if needed
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else if (state is CartLoading) {
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: getRelativeWidth(0.02),
-                          left: getRelativeWidth(0.02),
-                          bottom: getRelativeHeight(0.007)
-                          //vertical: getRelativeHeight(0.006),
-                          ),
-                      child: pizzaItemAddShimmer,
-                    );
-                  }
-                  return const SizedBox();
-                },
+            //quantity button
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 4,
               ),
+              width: double.infinity,
+              child: QuantityControlButton(pizza: widget.pizza),
             ),
           ],
         ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/app_view.dart';
 import 'package:pizza_app/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:pizza_app/custom/cart_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
@@ -18,6 +20,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<FirebaseUserRepo>(
           create: (context) => FirebaseUserRepo(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => CartProvider(),
         ),
       ],
       child: const MyAppView(),
