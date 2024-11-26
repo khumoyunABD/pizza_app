@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pizza_app/constants/size_config.dart';
-import 'package:pizza_app/custom/quantity_button.dart';
-import 'package:pizza_app/screens/home/views/details.dart';
+import 'package:pizza_app/cart_related/quantity_button.dart';
+import 'package:pizza_app/screens/shared/food_details.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
 class PizzaItem extends StatefulWidget {
@@ -43,7 +43,7 @@ class _PizzaItemState extends State<PizzaItem> {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => DetailsScreen(widget.pizza),
+              builder: (BuildContext context) => FoodDetails(widget.pizza),
             ),
           );
         },

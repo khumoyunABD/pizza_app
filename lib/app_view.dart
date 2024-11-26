@@ -10,7 +10,7 @@ import 'package:pizza_app/constants/size_config.dart';
 import 'package:pizza_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:pizza_app/screens/auth/views/welcome.dart';
 import 'package:pizza_app/screens/home/blocs/get_pizza_bloc/get_pizza_bloc.dart';
-import 'package:pizza_app/screens/home/views/splash.dart';
+import 'package:pizza_app/screens/shared/splash.dart';
 import 'package:pizza_app/screens/tabs/main_tabs.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 

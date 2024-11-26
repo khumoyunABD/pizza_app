@@ -1,6 +1,6 @@
 // quantity_control_button.dart
 import 'package:flutter/material.dart';
-import 'package:pizza_app/custom/cart_provider.dart';
+import 'package:pizza_app/cart_related/cart_provider.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 import 'package:provider/provider.dart';
 

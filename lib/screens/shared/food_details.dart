@@ -3,9 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pizza_app/components/macro.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 
-class DetailsScreen extends StatelessWidget {
+class FoodDetails extends StatelessWidget {
   final Pizza pizza;
-  const DetailsScreen(this.pizza, {super.key});
+  const FoodDetails(this.pizza, {super.key});
 
   @override
   Widget build(BuildContext context) {

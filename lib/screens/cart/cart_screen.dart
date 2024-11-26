@@ -1,6 +1,7 @@
 // cart_screen.dart
 import 'package:flutter/material.dart';
-import 'package:pizza_app/custom/cart_provider.dart';
+import 'package:pizza_app/cart_related/cart_provider.dart';
+import 'package:pizza_app/screens/checkout/checkout_screen.dart';
 import 'package:pizza_repository/pizza_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
+    final hasItems = cart.items.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,6 +54,56 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomSheet: hasItems
+          ? Container(
+              margin: const EdgeInsets.only(
+                bottom: 50,
+              ),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, -1),
+                  ),
+                ],
+              ),
+              child: SafeArea(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to checkout page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const CheckoutScreen(),
+                      ),
+                    );
+                    // or if you're using named routes:
+                    // Navigator.pushNamed(context, '/checkout');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    'Proceed to Checkout',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : null,
     );
   }
 }

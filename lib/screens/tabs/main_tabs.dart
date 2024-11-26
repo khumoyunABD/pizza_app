@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pizza_app/components/bnb.dart';
-import 'package:pizza_app/screens/home/views/cart.dart';
+import 'package:pizza_app/screens/cart/cart_screen.dart';
 import 'package:pizza_app/screens/home/views/home.dart';
 import 'package:pizza_app/screens/tabs/order.dart';
 import 'package:pizza_app/screens/tabs/profile.dart';
